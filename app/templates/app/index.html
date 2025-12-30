@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ANTARANGA - Recommender</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: auto;
+        padding: 50px;
+        line-height: 1.6;
+      }
+      .input-card {
+        background: #f4f4f4;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .place-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 5px solid #28a745;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        width: 100%;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nepal Tourist Recommender</h1>
+    <div class="input-card">
+      <form method="POST">
+        {% csrf_token %}
+        <p>
+          Nature Score:
+          <input type="range" name="nature" min="1" max="10" value="5" />
+        </p>
+        <p>
+          Adventure Score:
+          <input type="range" name="adventure" min="1" max="10" value="5" />
+        </p>
+        <p>
+          Culture Score:
+          <input type="range" name="culture" min="1" max="10" value="5" />
+        </p>
+        <p>
+          Altitude Score:
+          <input type="range" name="altitude" min="1" max="10" value="5" />
+        </p>
+        <button type="submit">Recommend Places</button>
+      </form>
+    </div>
+
+    {% if results %}
+    <h2>Matching Places in Cluster {{ cluster }}:</h2>
+    {% for loc in results %}
+    <div class="place-card">
+      <h3>{{ loc.name }}</h3>
+      <p>
+        N: {{loc.nature_score}} | A: {{loc.adventure_score}} | C:
+        {{loc.culture_score}} | Alt: {{loc.altitude_score}}
+      </p>
+    </div>
+    {% endfor %} {% endif %}
+  </body>
+</html>
